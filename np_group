@@ -1,0 +1,52 @@
+---
+apiVersion: crd.antrea.io/v1beta1
+kind: ClusterGroup
+metadata:
+  name: tkg-workload
+spec:
+  namespaceSelector:
+    matchExpressions:
+    - key: kubernetes.io/metadata.name
+      operator: NotIn
+      values: 
+      - avi-system
+      - cert-manager
+      - kube-node-lease
+      - kube-public
+      - kube-system
+      - secretgen-controller
+      - tanzu-package
+      - tanzu-system-monitoring
+      - tanzu-system-dashboards
+      - tanzu-system-ingress
+      - tanzu-system-logging
+      - tkg-system
+      - tkg-system-public
+      - vmware-system-antrea
+      - vmware-system-csi
+---
+apiVersion: crd.antrea.io/v1beta1
+kind: ClusterGroup
+metadata:
+  name: tkg-infra
+spec:
+  namespaceSelector:
+    matchExpressions:
+    - key: kubernetes.io/metadata.name
+      operator: In
+      values: 
+      - avi-system
+      - cert-manager
+      - kube-node-lease
+      - kube-public
+      - kube-system
+      - secretgen-controller
+      - tanzu-package
+      - tanzu-system-monitoring
+      - tanzu-system-dashboards
+      - tanzu-system-ingress
+      - tanzu-system-logging
+      - tkg-system
+      - tkg-system-public
+      - vmware-system-antrea
+      - vmware-system-csi

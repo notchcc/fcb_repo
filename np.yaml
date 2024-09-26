@@ -1,0 +1,39 @@
+---
+apiVersion: crd.antrea.io/v1beta1
+kind: ClusterNetworkPolicy
+metadata:
+  name: global-allow-workload-to-dns
+spec:
+  tier: platform
+  priority: 1
+  egress:
+  - action: Allow
+    appliedTo:
+    - group: tkg-workload
+    toServices:
+    - name: kube-dns
+      namespace: kube-system
+---
+apiVersion: crd.antrea.io/v1beta1
+kind: ClusterNetworkPolicy
+metadata:
+  name: global-deny-workload-to-infra
+spec:
+  tier: platform
+  priority: 100
+  egress:
+  - action: Drop
+    enableLogging: true
+    appliedTo:
+    - group: tkg-workload
+    to:
+    - nodeSelector:
+        matchLabels:
+          node-role.kubernetes.io/control-plane: ""
+  - action: Drop
+    enableLogging: true
+    appliedTo:
+    - group: tkg-workload
+    to:
+    - group: tkg-infra
+  
